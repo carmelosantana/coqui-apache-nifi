@@ -1,0 +1,75 @@
+{
+    "name": "carmelosantana/coqui-toolkit-apache-nifi",
+    "description": "Apache NiFi data flow management toolkit for Coqui — process groups, processors, connections, controller services, parameter contexts, provenance, and PHP pipeline DSL deployment via the NiFi REST API.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "coqui",
+        "nifi",
+        "apache-nifi",
+        "dataflow",
+        "etl",
+        "pipeline",
+        "data-integration",
+        "toolkit",
+        "php-agents"
+    ],
+    "authors": [
+        {
+            "name": "Carmelo Santana"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "coquibot/php-nifi-pipelines": "^0.1",
+        "symfony/http-client": "^7.0"
+    },
+    "require-dev": {
+        "carmelosantana/php-agents": "^0.7",
+        "pestphp/pest": "^3.0",
+        "phpstan/phpstan": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CarmeloSantana\\CoquiToolkitApacheNifi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CarmeloSantana\\CoquiToolkitApacheNifi\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "php-agents": {
+            "toolkits": [
+                "CarmeloSantana\\CoquiToolkitApacheNifi\\NiFiToolkit"
+            ],
+            "credentials": {
+                "NIFI_BASE_URL": "Apache NiFi instance URL (e.g. https://localhost:8443)",
+                "NIFI_USERNAME": "Apache NiFi username for API authentication",
+                "NIFI_PASSWORD": "Apache NiFi password for API authentication"
+            },
+            "gated": {
+                "nifi_process_group": ["delete", "stop"],
+                "nifi_processor": ["delete", "stop"],
+                "nifi_connection": ["delete", "empty_queue"],
+                "nifi_controller_service": ["delete", "disable"],
+                "nifi_parameter_context": ["delete"],
+                "nifi_pipeline": ["deploy"]
+            },
+            "description": "Apache NiFi data flow management — create, configure, monitor, and deploy NiFi pipelines via the REST API. Includes a PHP pipeline DSL for defining flows programmatically."
+        }
+    },
+    "scripts": {
+        "test": "pest",
+        "analyse": "phpstan analyse"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
