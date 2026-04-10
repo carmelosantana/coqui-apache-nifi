@@ -10,6 +10,7 @@ use CarmeloSantana\PHPAgents\Tool\ToolResult;
 use CarmeloSantana\PHPAgents\Tool\Parameter\EnumParameter;
 use CarmeloSantana\PHPAgents\Tool\Parameter\StringParameter;
 use CarmeloSantana\CoquiToolkitApacheNifi\Runtime\NiFiClient;
+use CarmeloSantana\CoquiToolkitApacheNifi\Runtime\NiFiResult;
 
 /**
  * NiFi data provenance — track data lineage and debug flow execution.
@@ -137,7 +138,7 @@ final readonly class ProvenanceTool
 
         // Poll for completion (provenance queries are async)
         $maxAttempts = 5;
-        $status = null;
+        $status = NiFiResult::error('Provenance query returned no results.');
         for ($i = 0; $i < $maxAttempts; $i++) {
             $status = $this->client->get("provenance/{$queryId}");
             if (!$status->success || !is_array($status->data)) {
@@ -155,10 +156,6 @@ final readonly class ProvenanceTool
 
         // Clean up the provenance query
         $this->client->delete("provenance/{$queryId}");
-
-        if ($status === null) {
-            return ToolResult::error('Provenance query returned no results.');
-        }
 
         return $status->toToolResultWith('Provenance search results:');
     }
@@ -204,7 +201,7 @@ final readonly class ProvenanceTool
 
         // Poll for completion
         $maxAttempts = 5;
-        $status = null;
+        $status = NiFiResult::error('Lineage query returned no results.');
         for ($i = 0; $i < $maxAttempts; $i++) {
             $status = $this->client->get("provenance/lineage/{$lineageId}");
             if (!$status->success || !is_array($status->data)) {
@@ -221,10 +218,6 @@ final readonly class ProvenanceTool
 
         // Clean up
         $this->client->delete("provenance/lineage/{$lineageId}");
-
-        if ($status === null) {
-            return ToolResult::error('Lineage query returned no results.');
-        }
 
         return $status->toToolResultWith('Data lineage:');
     }

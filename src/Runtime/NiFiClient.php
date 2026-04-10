@@ -63,7 +63,7 @@ final class NiFiClient
         return $this->request('PUT', $endpoint, body: $body);
     }
 
-    /** @param array<string, mixed> $body */
+    /** @param array<string, mixed> $query */
     public function delete(string $endpoint, array $query = []): NiFiResult
     {
         return $this->request('DELETE', $endpoint, query: $query);

@@ -21,7 +21,6 @@
     ],
     "require": {
         "php": "^8.4",
-        "coquibot/php-nifi-pipelines": "^0.1",
         "symfony/http-client": "^7.0"
     },
     "require-dev": {
@@ -31,7 +30,8 @@
     },
     "autoload": {
         "psr-4": {
-            "CarmeloSantana\\CoquiToolkitApacheNifi\\": "src/"
+            "CarmeloSantana\\CoquiToolkitApacheNifi\\": "src/",
+            "CoquiBot\\NiFiPipelines\\": "src/NiFiPipelines/"
         }
     },
     "autoload-dev": {
@@ -62,7 +62,7 @@
     },
     "scripts": {
         "test": "pest",
-        "analyse": "phpstan analyse"
+        "analyse": "phpstan analyse --memory-limit=1G"
     },
     "config": {
         "sort-packages": true,
